@@ -5,12 +5,14 @@
   import editPage from "./routes/editPage.svelte";
  import subPage from "./routes/subPage.svelte";
  import addPage from "./routes/addPage.svelte";
+  import pdfPage from "./routes/pdfPage.svelte";
   const routes = {
       "/": HomePage,
       "/login": HomePage,
       "/logout": HomePage,
       "/page/:tag/:page": HomePage,
       "/edit/:pageId": editPage,
+      "/pdf/:pageId": pdfPage,
       "/subPage/:editor": subPage,
       "/addPage/": addPage,
       "*": NotFound

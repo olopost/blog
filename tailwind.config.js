@@ -2,7 +2,15 @@
 export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
-    extend: {},
+    extend: {
+      width: {
+        a4: '210mm',
+      },
+      height: {
+        a4: '297mm',
+      },
+    },
+
   },
   plugins: [
       require('@tailwindcss/typography')

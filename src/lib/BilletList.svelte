@@ -6,6 +6,7 @@
     export let currentTag = null;
     export let totalPage = 0;
     export let billets = [];
+    import {UrlConverter, PDFEngine} from "chromiumly";
 
     if (currentPage == null) {
         currentPage = 1;
@@ -71,6 +72,9 @@
     function editPage(id) {
         push("/edit/" + id);
     }
+    function pdfPage(id) {
+        push("/pdf/" + id);
+    }
     function prose(billet) {
         if (billet.published) {
             return "prose prose-stone prose-sm text-justify max-w-2xl"
@@ -78,18 +82,27 @@
             return "prose prose-stone prose-sm text-justify max-w-2xl bg-slate-200"
         }
     }
+
+    async function pdfGenerate(billet) {
+        const urlConverter = new UrlConverter();
+        const buffer = await urlConverter.convert({
+            url: "https://www.meyn.fr/#/pdf/" + billet,
+        });
+        await PDFEngine.generate("gotenberg.pdf", buffer);
+    }
 </script>
 {#each billets as billet}
         <article class="{prose(billet)}">
             <div class="flex">
                 <h1>{billet.title}</h1>
                 <div class="grow"></div>
-                <button on:click={editPage(billet.id)}>Edit</button>
+                {#if pb.authStore.isValid}
+                <button class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600 ring-1 ring-inset ring-blue-500/10" on:click={editPage(billet.id)}>Edit</button>
+                <button class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600 ring-1 ring-inset ring-blue-500/10" on:click={pdfPage(billet.id)}>Pdf</button>
+                    <button class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600 ring-1 ring-inset ring-blue-500/10" on:click={pdfGenerate(billet.id)}>PdfGen</button>
+                {/if}
             </div>
             {@html billet.note}
-            {#if pb.authStore.isValid}
-            <button on:click={editPage(billet.id)}>Edit</button>
-            {/if}
         </article>
     <space/>
 {/each}
