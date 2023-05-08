@@ -10,19 +10,21 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^2.0.3",
     "@sveltejs/adapter-auto": "latest",
+    "@sveltejs/vite-plugin-svelte": "^2.0.3",
+    "@tailwindcss/typography": "latest",
     "@tsconfig/svelte": "^3.0.0",
+    "@types/quill": "^2.0.10",
+    "autoprefixer": "latest",
+    "pocketbase": "latest",
+    "postcss": "latest",
+    "@tinymce/tinymce-svelte": "^1.0.1",
     "svelte": "^3.55.1",
     "svelte-check": "^2.10.3",
-    "tslib": "^2.5.0",
-    "typescript": "^4.9.3",
-    "vite": "^4.2.0",
     "svelte-spa-router": "latest",
     "tailwindcss": "latest",
-    "postcss": "latest",
-    "autoprefixer": "latest",
-    "@tailwindcss/typography": "latest",
-    "pocketbase": "latest"
+    "tslib": "^2.5.0",
+    "typescript": "^4.9.3",
+    "vite": "^4.2.0"
   }
 }

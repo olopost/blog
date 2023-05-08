@@ -1,4 +1,4 @@
-VERSION=0.3
+VERSION=0.11
 
 serve:
 	pocketbase --dir $(CURDIR)/pb_data  serve &
@@ -14,3 +14,4 @@ build:
 
 push:
 	docker push olopost/blog:$(VERSION)
+	kubectl set image deployment/blog blog=olopost/blog:$(VERSION)
