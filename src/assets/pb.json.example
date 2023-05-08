@@ -1,0 +1,5 @@
+{
+  "_comment": "please copy this file to pb.json. Apikey is for your TinyMCE apikey",
+  "url": "https://my.url",
+  "apiKey": "no-api-key"
+}
