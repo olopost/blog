@@ -81,6 +81,11 @@
 </script>
 {#each billets as billet}
         <article class="{prose(billet)}">
+            <div class="flex">
+                <h1>{billet.title}</h1>
+                <div class="grow"></div>
+                <button on:click={editPage(billet.id)}>Edit</button>
+            </div>
             {@html billet.note}
             {#if pb.authStore.isValid}
             <button on:click={editPage(billet.id)}>Edit</button>

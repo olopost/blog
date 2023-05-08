@@ -27,12 +27,15 @@
         console.log('cleanUp')
         await cleanUp();
     });
+    function addPage() {
+        push("/addPage/")
+    }
 </script>
 
 <NavBar/>
 
 <main>
-    <div class="max-w-xl m-auto flex-rows-2 grid grid-cols-4">
+    <div class="max-w-xl m-auto flex-rows-2 grid grid-cols-5">
         <div class="col-span-1">
             <a on:click={oidcAuth} target="_blank" rel="noreferrer">
                 <img src="/portrait.png" class="h-12 w-12 flex-none rounded-full" alt="SME Logo" />
@@ -50,6 +53,12 @@
             <h1>Samuel MEYNARD</h1>
             <h2>Architecte Sécurité des systèmes d'information</h2>
         </div>
+
+        {#key currentUser}
+            {#if pb.authStore.isValid}
+                <div class="col-span-1 h-12 w-min bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">AddPage</div>
+                {/if}
+            {/key}
     </div>
     <space/>
     <div class="grid grid-cols-1">

@@ -8,7 +8,6 @@ import Tag from "../lib/Tag.svelte";
     import {pb} from "../lib/pocketbase";
     import Editor from '@tinymce/tinymce-svelte';
     import type {Record} from "pocketbase";
-    let quill = null;
     export let tags = [];
     export let note :Record;
     export let content = "...";
@@ -21,7 +20,6 @@ import Tag from "../lib/Tag.svelte";
         checked = note.published
         tags = note.tag;
     });
-    quill = quill;
     async function changeClick() {
         console.log("save content" + Date())
         const data = {
