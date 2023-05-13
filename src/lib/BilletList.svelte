@@ -6,7 +6,6 @@
     export let currentTag = null;
     export let totalPage = 0;
     export let billets = [];
-    import {UrlConverter, PDFEngine} from "chromiumly";
 
     if (currentPage == null) {
         currentPage = 1;
@@ -83,12 +82,15 @@
         }
     }
 
-    async function pdfGenerate(billet) {
-        const urlConverter = new UrlConverter();
-        const buffer = await urlConverter.convert({
-            url: "https://www.meyn.fr/#/pdf/" + billet,
-        });
-        await PDFEngine.generate("gotenberg.pdf", buffer);
+    async function pdfGenerate(id) {
+        fetch('https://pdf.meyn.fr/forms/chromium/convert/url', {
+            mode: 'no-cors',
+            method: 'POST',
+            headers: {'url': 'https://www.meyn.fr',
+            },
+            body: "",
+        })
+        .then((response) => {console.log(response)});
     }
 </script>
 {#each billets as billet}
