@@ -31,4 +31,6 @@
     <article class="prose w-a4 h-14">
         {@html content}
     </article>
+    {:else}
+    <h1>Authentification requise</h1>
 {/if}

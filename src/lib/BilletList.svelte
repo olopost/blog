@@ -7,6 +7,7 @@
     export let totalPage = 0;
     export let billets = [];
 
+
     if (currentPage == null) {
         currentPage = 1;
     }
@@ -29,7 +30,7 @@
     async function calculateBillets(pb: any, currentTag: string) {
         let req;
         let maxBillet = 4;
-        let billets;
+        let mybillets;
         let totalPage;
         // -------------
         let filter = "published=true";
@@ -40,7 +41,7 @@
         // ---
         if (currentTag == null) {
             req = (await pb.collection('kb_note').getList(currentPage, maxBillet, {sort:"-created", filter:filter}));
-            billets = req.items;
+            mybillets = req.items;
             totalPage = req.totalPages;
         } else {
             if (filter) {
@@ -50,16 +51,24 @@
                 filter = "tag.id=\'" + currentTag +"\'";
             }
             req = (await pb.collection('kb_note').getList(currentPage, maxBillet, {sort:"-created", filter:filter,expand: "tag.id"}));
-            billets = req.items;
+            mybillets = req.items;
             totalPage = req.totalPages;
         }
-        return {billets: billets, totalPage: totalPage}
+        return {billets: mybillets, totalPage: totalPage}
     }
+
+    /**
+     * We calculate billet at page initial loading
+     */
     onMount(async () => {
         let req = (await calculateBillets(pb, currentTag))
         totalPage = req.totalPage;
         billets = req.billets;
     });
+
+    /**
+     * On change, we reload the page and recalculate billet
+     */
     $: async() => {
         let req = (await calculateBillets(pb, currentTag));
         totalPage = req.totalPage;
@@ -68,6 +77,11 @@
     $: {billets = [...billets]
     totalPage = totalPage;
     }
+
+    /**
+     * Routing function
+     * @param id
+     */
     function editPage(id) {
         push("/edit/" + id);
     }
@@ -82,15 +96,23 @@
         }
     }
 
+    /**
+     * PDF button generation
+     * @param id
+     */
     async function pdfGenerate(id) {
-        fetch('https://pdf.meyn.fr/forms/chromium/convert/url', {
-            mode: 'no-cors',
-            method: 'POST',
-            headers: {'url': 'https://www.meyn.fr',
-            },
-            body: "",
-        })
-        .then((response) => {console.log(response)});
+        let pdf_url = 'https://pdf.meyn.fr/forms/chromium/convert/url'
+        let page_url = 'https://www.meyn.fr/#/pdf/' + id
+        let data = new FormData();
+        data.append("url", page_url)
+        data.append("extraHttpHeaders", JSON.stringify({"Authorization": pb.authStore.token}))
+        fetch(pdf_url, {
+            method: "POST",
+            mode: "no-cors",
+            body: data
+        }).then(res => res.blob()).then(blob => {var file = window.URL.createObjectURL(blob);
+        window.location.assign(file);
+        });
     }
 </script>
 {#each billets as billet}

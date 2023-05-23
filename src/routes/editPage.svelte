@@ -11,7 +11,31 @@ import Tag from "../lib/Tag.svelte";
     export let tags = [];
     export let note :Record;
     export let content = "...";
-    let conf = {}
+    let conf = {
+        branding: false,
+        promotion: false,
+        menubar: false,
+        min_height: 270,
+        height: 270,
+        max_height: 700,
+        autoresize_bottom_margin: 30,
+        content_style: "body { font-size: 14px }",
+        plugins: [
+            "autoresize",
+            "autolink",
+            "lists",
+            "link",
+            "image",
+            "searchreplace",
+            "fullscreen",
+            "media",
+            "table",
+            "code",
+            "codesample",
+        ],
+        toolbar:
+            "undo redo | styles | alignleft aligncenter alignright | bold italic forecolor backcolor | bullist numlist | link image table codesample | code fullscreen",
+    };
     export let checked = true;
 
     onMount(async () => {
