@@ -1,4 +1,4 @@
-VERSION=0.14
+VERSION=0.16
 
 serve:
 	pocketbase --dir $(CURDIR)/pb_data  serve &

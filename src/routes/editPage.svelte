@@ -72,5 +72,5 @@ import Tag from "../lib/Tag.svelte";
 {:then result}
     <Tag bind:note={note}/>
 {/await}
-<button on:click={changeClick}>Save</button>
+<button class="rounded-md bg-indigo-600 text-white px-3 hover:bg-indigo-500 shadow-sm focus-visible:outline-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-8 " on:click={changeClick}>Save</button>
 <Toggle bind:checked={checked} on:click={toggleId}/>
