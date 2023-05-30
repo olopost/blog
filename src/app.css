@@ -38,6 +38,14 @@ h1 {
     text-align: center;
 }
 
+.drawio img {
+    display: block flow;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+
+}
 
 @media (prefers-color-scheme: light) {
     :root {

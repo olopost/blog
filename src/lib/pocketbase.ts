@@ -23,7 +23,7 @@ export function oidcLogout() {
     push("/logout")
 }
 export function getAvatar() {
-    console.log("getAvatar:")
+    // console.log("getAvatar:")
     let ret :string
     ret = conf.url + "/api/files/users/" + pb.authStore.model.id + "/" + pb.authStore.model.avatar;
     console.log(ret)

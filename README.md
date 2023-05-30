@@ -2,6 +2,10 @@
 
 # Release Note
 
+## 0.18 improve diagram display in story
+
+## 0.17 update dependency and drawio diagram editor
+
 ## 0.11 gestion du toggle
 
 ## 0.10 changement d'editeur

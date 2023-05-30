@@ -35,7 +35,7 @@
             tagclass = "inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10";
             svg = cross;
         } else {
-            tagclass = "inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-blue-700/10"
+            tagclass = " inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-blue-700/10"
             svg = plus;
         }
         return {"item": ret, "class": tagclass, "svg": svg}

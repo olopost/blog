@@ -1,14 +1,17 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import {pb} from "../lib/pocketbase";
+    import {oidcAuth, pb} from "../lib/pocketbase";
 
     export let params;
     export let content;
+    export let src = null;
+    export let title = null;
 
     onMount(async () => {
-        let note
-        note = (await pb.collection("kb_note").getOne(params.pageId, {expand: "tag.label"}))
+        const note = (await pb.collection("kb_note").getOne(params.pageId, {expand: "tag.label"}))
+        title = note.title
         content = note.note
+        src = note.diag
     });
     $: content
 </script>
@@ -27,10 +30,12 @@
     }
 </style>
 
-{#if pb.authStore.isValid}
     <article class="prose w-a4 h-14">
+        <h1>{title}</h1>
+        {#if src}
+            <h2>Le diagramme</h2>
+            <img class="block max-w-full" src="{src}"/>
+            <h2>Le contenu</h2>
+        {/if}
         {@html content}
     </article>
-    {:else}
-    <h1>Authentification requise</h1>
-{/if}

@@ -2,6 +2,7 @@
     import {onMount} from 'svelte';
     import {location, push} from 'svelte-spa-router';
     import { currentUser, pb } from './pocketbase';
+    import Header from "./Header.svelte";
     export let currentPage = 1;
     export let currentTag = null;
     export let totalPage = 0;
@@ -102,30 +103,59 @@
      */
     async function pdfGenerate(id) {
         let pdf_url = 'https://pdf.meyn.fr/forms/chromium/convert/url'
-        let page_url = 'https://www.meyn.fr/#/pdf/' + id
+        let page_url = 'https://www.meyn.fr/#/pdf/'.concat(id)
+        console.log(page_url)
         let data = new FormData();
+        let headers = new Headers();
+        headers.append("Access-Control-Allow-Origin", "*")
+        headers.append("Accept", "application/pdf")
         data.append("url", page_url)
         data.append("extraHttpHeaders", JSON.stringify({"Authorization": pb.authStore.token}))
-        fetch(pdf_url, {
-            method: "POST",
-            mode: "no-cors",
-            body: data
-        }).then(res => res.blob()).then(blob => {var file = window.URL.createObjectURL(blob);
-        window.location.assign(file);
-        });
+        let response
+        try {
+            response = await fetch(pdf_url, {
+                method: "POST",
+                headers: headers,
+                mode: "cors",
+                body: data
+            })
+        } catch(e) {
+            console.error(e)
+        } finally {
+            const blob = await response.blob();
+            console.log(blob.size)
+            let anchor = document.createElement("a")
+            const file = window.URL.createObjectURL(blob);
+            anchor.href = file
+            anchor.download = "".concat(id + ".pdf")
+            anchor.click()
+        }
+
+            //.then(res => res.blob()).then(blob => {var file = window.URL.createObjectURL(blob);
+        //window.location.assign(file);
+        //});
     }
 </script>
 {#each billets as billet}
         <article class="{prose(billet)}">
-            <div class="flex">
-                <h1>{billet.title}</h1>
-                <div class="grow"></div>
+            <div class="flex justify-between">
+                <h1 class="justify-start">{billet.title}</h1>
                 {#if pb.authStore.isValid}
-                <button class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600 ring-1 ring-inset ring-blue-500/10" on:click={editPage(billet.id)}>Edit</button>
-                <button class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600 ring-1 ring-inset ring-blue-500/10" on:click={pdfPage(billet.id)}>Pdf</button>
-                    <button class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600 ring-1 ring-inset ring-blue-500/10" on:click={pdfGenerate(billet.id)}>PdfGen</button>
+                    <div>
+                        <button class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600 ring-1 ring-inset ring-blue-500/10" on:click={editPage(billet.id)}>Edit</button>
+                        <button class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600 ring-1 ring-inset ring-blue-500/10" on:click={pdfPage(billet.id)}>Pdf</button>
+                        <button class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600 ring-1 ring-inset ring-blue-500/10" on:click={pdfGenerate(billet.id)}>PdfGen</button>
+                    </div>
                 {/if}
             </div>
+                {#if billet.diag}
+                    <h2>Le diagramme</h2>
+                        <img class="block max-w-full" src="{billet.diag}"/>
+                    {/if}
+                <div class="grow"></div>
+            {#if billet.diag}
+                <h2>Le contenu</h2>
+            {/if}
             {@html billet.note}
         </article>
     <space/>

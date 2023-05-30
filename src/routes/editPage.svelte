@@ -5,6 +5,7 @@
 import Tag from "../lib/Tag.svelte";
     export let params = {}
     import {onMount} from "svelte";
+    import Draw from "../lib/Draw.svelte";
     import {pb} from "../lib/pocketbase";
     import Editor from '@tinymce/tinymce-svelte';
     import type {Record} from "pocketbase";
@@ -70,7 +71,9 @@ import Tag from "../lib/Tag.svelte";
 {#await note}
     Chargement de la page ...
 {:then result}
+    <Draw noteid={params.pageId}/>
     <Tag bind:note={note}/>
 {/await}
 <button class="rounded-md bg-indigo-600 text-white px-3 hover:bg-indigo-500 shadow-sm focus-visible:outline-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-8 " on:click={changeClick}>Save</button>
 <Toggle bind:checked={checked} on:click={toggleId}/>
+

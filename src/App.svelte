@@ -15,7 +15,7 @@
       "/pdf/:pageId": pdfPage,
       "/subPage/:editor": subPage,
       "/addPage/": addPage,
-      "*": NotFound
+      "*": NotFound,
   }
 </script>
 <main>
