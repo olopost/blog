@@ -84,9 +84,9 @@ async function getSrc() {
     .... Loading Diagram
     {:then result}
     {#if result}
-<img id="img" use:onsrc on:load={initB64()} class="drawio" style="cursor:default;" src={result}/>
+        <img id="img" use:onsrc on:load={initB64()} class="drawio" style="cursor:default;" src={result}/>
         {:else }
-        <img id="img" use:onsrc on:load={initB64()} class="max-w-full" style="cursor:default;" src={initimg}/>
+        <img id="img" use:onsrc on:load={initB64()} class="drawio" style="cursor:default;" src={initimg}/>
         {/if}
     {:catch error}
     <p>Get error {error}</p>

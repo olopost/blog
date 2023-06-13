@@ -1,5 +1,5 @@
-import {push} from "svelte-spa-router";
+import {goto} from "$app/navigation"
 
 export function addPageRoute() {
-    push("/addPage/")
+    goto("/addPage/")
 }

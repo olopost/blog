@@ -1,7 +1,7 @@
 import PocketBase from 'pocketbase';
 import conf from './../assets/pb.json'
 import { writable } from 'svelte/store';
-import {push} from "svelte-spa-router";
+import {invalidate, goto, invalidateAll} from "$app/navigation";
 
 export const pb = new PocketBase(conf.url);
 
@@ -16,11 +16,11 @@ pb.authStore.onChange((auth) => {
 
 export async function oidcAuth() {
     await pb.collection('users').authWithOAuth2({provider: "oidc"});
-    push("/login")
+location.reload()
 }
 export function oidcLogout() {
     pb.authStore.clear()
-    push("/logout")
+    location.reload()
 }
 export function getAvatar() {
     // console.log("getAvatar:")

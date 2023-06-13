@@ -1,4 +1,4 @@
-VERSION=0.25
+VERSION=0.34
 
 serve:
 	pocketbase --dir $(CURDIR)/pb_data  serve &
@@ -10,7 +10,7 @@ stop:
 
 
 build:
-	docker build --platform=amd64 -t olopost/blog:$(VERSION) .
+	docker build --platform=linux/amd64 -t olopost/blog:$(VERSION) .
 
 push:
 	docker push olopost/blog:$(VERSION)

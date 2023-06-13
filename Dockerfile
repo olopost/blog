@@ -1,9 +1,16 @@
-FROM node:lts-buster AS build
+FROM node:current-alpine AS builder
 WORKDIR /app
-COPY package.json ./
+COPY package.json .
 RUN npm install
-COPY . ./
+COPY . .
 RUN npm run build
+RUN npm prune --production
 
-FROM nginx:stable-alpine-slim
-COPY --from=build /app/dist /usr/share/nginx/html
+FROM node:current-alpine
+WORKDIR /app
+COPY --from=builder /app/build build/
+COPY --from=builder /app/node_modules node_modules/
+COPY package.json .
+EXPOSE 3000
+ENV NODE_ENV=production
+CMD [ "node", "build" ]

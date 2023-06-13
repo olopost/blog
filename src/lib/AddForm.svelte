@@ -1,6 +1,7 @@
 <script lang="ts">
     import Editor from '@tinymce/tinymce-svelte';
-    import {push} from "svelte-spa-router";
+    import {buildUrl} from "$lib/utils";
+    import {goto} from "$app/navigation";
     import Toggle from "../lib/Toggle.svelte"
     import blogconf from "../assets/pb.json"
     import {pb} from "./pocketbase";
@@ -33,7 +34,13 @@
             let record = await pb.collection('kb_note').create(data, { '$autoCancel': false });
             console.log(record)
         } catch (error) {
-            console.log(error.originalError)
+            const url = buildUrl('/', {'error': error.originalError,
+                                       'title': "Échec de l'action"});
+            goto(url)
+        } finally {
+            const url = buildUrl('/', {'info': "".concat(title, ": créé avec succès"),
+                                        'title': "Bravo"});
+            goto(url)
         }
     }
     $: article_tags;

@@ -1,10 +1,10 @@
 <script lang="ts">
     import {onMount} from 'svelte';
-    import {location, push} from 'svelte-spa-router';
+    import {goto, invalidate} from '$app/navigation';
     import { currentUser, pb } from './pocketbase';
-    import Header from "./Header.svelte";
-    export let currentPage = 1;
-    export let currentTag = null;
+    import {buildUrl} from "$lib/utils";
+    export let currentPage;
+    export let currentTag;
     export let totalPage = 0;
     export let billets = [];
 
@@ -41,7 +41,9 @@
         }
         // ---
         if (currentTag == null) {
+            pb.autoCancellation(false)
             req = (await pb.collection('kb_note').getList(currentPage, maxBillet, {sort:"-created", filter:filter}));
+            pb.autoCancellation(true)
             mybillets = req.items;
             totalPage = req.totalPages;
         } else {
@@ -55,6 +57,7 @@
             mybillets = req.items;
             totalPage = req.totalPages;
         }
+        console.log("calculate billet: ".concat(currentTag))
         return {billets: mybillets, totalPage: totalPage}
     }
 
@@ -78,16 +81,17 @@
     $: {billets = [...billets]
     totalPage = totalPage;
     }
-
+    $: currentTag && calculateBillets(pb, currentTag)
+    $: currentPage && calculateBillets(pb, currentTag)
     /**
      * Routing function
      * @param id
      */
     function editPage(id) {
-        push("/edit/" + id);
+        goto( "/edit/" + id);
     }
     function pdfPage(id) {
-        push("/pdf/" + id);
+        goto("/pdf/" + id);
     }
     function prose(billet) {
         if (billet.published) {
@@ -103,13 +107,14 @@
      */
     async function pdfGenerate(id) {
         let pdf_url = 'https://pdf.meyn.fr/forms/chromium/convert/url'
-        let page_url = 'https://www.meyn.fr/#/pdf/'.concat(id)
+        let page_url = 'https://www.meyn.fr/pdf/'.concat(id)
         console.log(page_url)
         let data = new FormData();
         let headers = new Headers();
         headers.append("Access-Control-Allow-Origin", "*")
-        headers.append("Accept", "application/pdf")
+        headers.append("Accept", "application/(pdf)")
         data.append("url", page_url)
+        data.append("waitDelay", "2s")
         data.append("extraHttpHeaders", JSON.stringify({"Authorization": pb.authStore.token}))
         let response
         try {
@@ -119,7 +124,7 @@
                 mode: "cors",
                 body: data
             })
-        } catch(e) {
+        } catch (e) {
             console.error(e)
         } finally {
             const blob = await response.blob();
@@ -131,10 +136,17 @@
             anchor.click()
         }
 
-            //.then(res => res.blob()).then(blob => {var file = window.URL.createObjectURL(blob);
+        //.then(res => res.blob()).then(blob => {var file = window.URL.createObjectURL(blob);
         //window.location.assign(file);
         //});
     }
+
+    export function selectPage(id) {
+        console.log("changement Page: ".concat(id))
+        currentPage = id;
+        currentTag = currentTag
+    }
+
 </script>
 {#each billets as billet}
         <article class="{prose(billet)}">
@@ -162,7 +174,7 @@
 {/each}
 <space/>
 {#each {length: totalPage} as _, i}
-    <a target="_self" href="#/page/all/{i+1}">{i+1}&nbsp;</a>
+    <button class="btn" on:click={() => selectPage(i+1)}>{i+1}&nbsp;</button>
 {/each}
 
 

@@ -1,19 +1,43 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+apiVersion: cert-manager.io/v1
+kind: Certificate
 metadata:
-  name: www
+  name: blog-cert
   namespace: default
 spec:
-  entryPoints:
-  - websecure
-  routes:
-  - kind: Rule
-    match: Host(`www.meyn.fr`)
-    services:
-    - name: www
-      port: 80
+  dnsNames:
+    - www.meyn.fr
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  secretName: blog-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 100m
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: 360s
+    nginx.ingress.kubernetes.io/proxy-read-timeout: 360s
+    nginx.ingress.kubernetes.io/proxy-send-timeout: 360s
+  name: blog
+spec:
+  rules:
+    - host: www.meyn.fr
+      http:
+        paths:
+          - backend:
+              service:
+                name: www
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
   tls:
-    certResolver: le
+    - hosts:
+        - www.meyn.fr
+      secretName: blog-tls
 ---
 apiVersion: v1
 kind: Service
@@ -24,7 +48,7 @@ spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 80
+    targetPort: 3000
   selector:
     app: blog
 ---
@@ -43,7 +67,7 @@ spec:
         app: blog
     spec:
       containers:
-        - image: docker.io/olopost/blog:0.3
+        - image: docker.io/olopost/blog:0.31
           imagePullPolicy: Always
           name: blog
       imagePullSecrets:

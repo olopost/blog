@@ -2,6 +2,10 @@
 
 # Release Note
 
+## 0.27 fix pdf generation bug
+
+## 0.26 Refactor with sveltekit
+
 ## 0.18 improve diagram display in story
 
 ## 0.17 update dependency and drawio diagram editor
