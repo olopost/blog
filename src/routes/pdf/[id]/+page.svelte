@@ -1,12 +1,12 @@
 <script lang="ts">
     export let data;
+    import "@/lib/prism/prism"
     import {goto} from "$app/navigation"
     import {pb} from "$lib/pocketbase";
     export function goHome() {
         console.log("GoHome!!!");
         goto('/');
     }
-    pb.authStore.token =
 </script>
 {#if pb.authStore.token}
 {#key data}

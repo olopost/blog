@@ -1,4 +1,6 @@
-VERSION=0.34
+VERSION=0.37
+
+.PHONY: serve stop build push
 
 serve:
 	pocketbase --dir $(CURDIR)/pb_data  serve &

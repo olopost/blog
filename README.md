@@ -2,6 +2,8 @@
 
 # Release Note
 
+## 0.35 add edge compatibility
+
 ## 0.27 fix pdf generation bug
 
 ## 0.26 Refactor with sveltekit

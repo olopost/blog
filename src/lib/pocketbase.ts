@@ -4,6 +4,8 @@ import { writable } from 'svelte/store';
 import {invalidate, goto, invalidateAll} from "$app/navigation";
 
 export const pb = new PocketBase(conf.url);
+// manage EDge browser issue
+pb.autoCancellation(false)
 
 export const currentUser = writable(pb.authStore.model);
 

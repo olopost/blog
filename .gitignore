@@ -1,3 +1,6 @@
+.svelte-kit/*
+.dockerignore
+build/*
 # Logs
 logs
 *.log

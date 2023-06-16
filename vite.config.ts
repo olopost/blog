@@ -13,6 +13,6 @@ export default defineConfig({
   server: {
     },
   build: {
-    target: ['safari16', 'chrome113']
+    target: ['safari16', 'chrome113',  'edge112']
   }
 })

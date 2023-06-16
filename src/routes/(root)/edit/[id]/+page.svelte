@@ -1,9 +1,10 @@
 <script lang="ts">
     import NavBar from "$lib/NavBar.svelte";
     import Toggle from "$lib/Toggle.svelte"
+    import "$lib/prism/prism.js"
     export let data;
     import blogconf from "@/assets/pb.json"
-    import Tag from "$lib/Tag.svelte";
+    import Tag from "@/lib/Tag.svelte";
     import {onMount} from "svelte";
     import Draw from "$lib/Draw.svelte";
     import {pb} from "$lib/pocketbase";
@@ -29,10 +30,16 @@
             "image",
             "searchreplace",
             "fullscreen",
+            'codesample',
             "media",
             "table",
             "code",
             "codesample",
+        ],
+        codesample_languages: [
+            { text: 'HTML/XML', value: 'markup' },
+            {text: 'YAML', value:'yaml'},
+
         ],
         toolbar:
             "undo redo | styles | alignleft aligncenter alignright | bold italic forecolor backcolor | bullist numlist | link image table codesample | code fullscreen",
