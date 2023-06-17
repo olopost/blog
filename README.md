@@ -2,7 +2,9 @@
 
 # Release Note
 
-## 0.35 add edge compatibility
+
+## 0.0.38 add version to footer
+## 0.0.35 add edge compatibility
 
 ## 0.27 fix pdf generation bug
 
