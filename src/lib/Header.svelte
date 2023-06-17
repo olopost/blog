@@ -1,3 +1,9 @@
+<script>
+    import {pb} from "./pocketbase";
+</script>
+{#if pb.authStore.isValid}
+    <br/>
+    {:else }
 <div class="md:flex md:items-center md:justify-between md:space-x-5">
     <div class="flex items-start space-x-5">
         <div class="flex-shrink-0">
@@ -18,3 +24,4 @@
     <div class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
     </div>
 </div>
+{/if}

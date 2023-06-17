@@ -46,6 +46,7 @@
     };
 
     onMount(async () => {
+        note = await pb.collection("kb_note").getOne(data.id)
     });
     async function changeClick() {
         console.log("save content" + Date())
@@ -75,7 +76,7 @@
 {:then result}
     <Editor {conf} bind:value={data.content} on:savecontent={changeClick}  apiKey={blogconf.apiKey}/>
     <Draw noteid={data.id}/>
-    <Tag bind:note={data.note}/>
+    <Tag note={note}/>
 {/await}
 <button class="rounded-md bg-indigo-600 text-white px-3 hover:bg-indigo-500 shadow-sm focus-visible:outline-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-8 " on:click={changeClick}>Save</button>
 <Toggle bind:checked={data.checked} on:click={toggleId}/>

@@ -5,6 +5,7 @@ export const load = async ({params}) => {
     if (browser) {
         let note = (await pb.collection("kb_note").getOne(params.id, {expand: "tag.label"}))
         return {
+            updated: note.updated,
             id: params.id,
             title: note.title,
             body: note.note,

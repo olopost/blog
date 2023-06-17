@@ -10,6 +10,8 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "@sveltejs/adapter-node": "^1.2.4",
     "@sveltejs/kit": "^1.20.0",
     "@sveltejs/vite-plugin-svelte": "^2.4.1",
