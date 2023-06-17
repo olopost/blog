@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 import {fileURLToPath} from "node:url";
 
 function getPackageVersion() {
-    const file = fileURLToPath(new URL('../../../../package.json', import.meta.url))
+    const file = fileURLToPath(new URL(process.cwd() + "/package.json", import.meta.url));
     const json = readFileSync(file, 'utf-8');
     console.log(json)
     let version = JSON.parse(json)

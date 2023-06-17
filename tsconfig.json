@@ -16,6 +16,7 @@
     "isolatedModules": true,
     "paths": {
       "@/*": ["./src/*"],
+      "$root": ["./"],
       "$lib":["./src/lib"],
       "$lib/*":["./src/lib/*"],
     }
