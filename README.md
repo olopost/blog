@@ -1,7 +1,9 @@
 # Blog Samuel
 
 # Release Note
-
+## version 0.0
+First release with complete blog with tags management, pdf article generation.
+Backend is manage by pocketbase with S3 file storage.   
 ### 0.0.40 add pdf generation
 ### 0.0.39 process.cwd for app root
 ## 0.0.38 add version to footer

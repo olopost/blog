@@ -12,6 +12,7 @@
     export let params = {};
     export let currentTag;
     export let currentPage;
+    export let search;
 
     async function cleanUp() {
         let item = document.querySelector('div.ql-toolbar');
@@ -26,6 +27,7 @@
     });
 
     $: currentTag = data.currentTag
+    $: search = data.search
 </script>
 
 <NavBar />
@@ -37,17 +39,24 @@
     <Alert level="info" message="{data.info}" title="{data.title}"/>
 {/if}
 
-<main>
+<main id="main">
     <Header/>
+    <div id="socle">
     {#key currentPage}
         {#key currentTag}
+            {#key search}
     <div class="grid grid-cols-1">
-            <BilletList bind:currentTag bind:currentPage></BilletList>
+        {#if search}
+            <h3>Recherche de {search}</h3>
+            {/if}
+            <BilletList bind:search bind:currentTag bind:currentPage></BilletList>
     </div>
+                {/key}
     {/key}
         {/key}
     {#if pb.authStore.isValid}
     {/if}
+    </div>
 </main>
 
 <footer>

@@ -5,6 +5,7 @@
     import {buildUrl} from "$lib/utils";
     export let currentPage;
     export let currentTag;
+    export let search;
     export let totalPage = 0;
     export let billets = [];
 
@@ -40,6 +41,10 @@
             console.log("authenticated:" + filter)
         }
         // ---
+        if (search != null) {
+            console.log(search)
+            filter = "note~\'" + search + "\'"
+        }
         if (currentTag == null) {
             pb.autoCancellation(false)
             req = (await pb.collection('kb_note').getList(currentPage, maxBillet, {sort:"-created", filter:filter}));
@@ -49,9 +54,9 @@
         } else {
             if (filter) {
                 console.log("not authenticated" + filter)
-                filter = "tag.id=\'" + currentTag +"\'" +  "&&" + filter;
+                filter = "tag~\'" + currentTag +"\'" +  "&&" + filter;
             } else {
-                filter = "tag.id=\'" + currentTag +"\'";
+                filter = "tag~\'" + currentTag +"\'";
             }
             req = (await pb.collection('kb_note').getList(currentPage, maxBillet, {sort:"-created", filter:filter,expand: "tag.id"}));
             mybillets = req.items;

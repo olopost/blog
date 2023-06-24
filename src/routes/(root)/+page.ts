@@ -6,7 +6,9 @@ export const load = e => {
         const info = e.url.searchParams.get('info')
         const error = e.url.searchParams.get('error')
         const title = e.url.searchParams.get('title')
+        const search = e.url.searchParams.get('search')
         return {
+            'search': search,
             'currentTag': currentTag,
             'currentPage': currentPage,
             'info': info,

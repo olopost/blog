@@ -1,4 +1,4 @@
-VERSION=0.0.40
+VERSION=0.0.41
 
 .PHONY: serve stop build push
 
@@ -14,6 +14,9 @@ stop:
 build:
 	npm version $(VERSION) || echo "Version not changed ($(VERSION)"
 	docker build --platform=linux/amd64 -t olopost/blog:$(VERSION) .
+buildnative:
+	npm version $(VERSION) || echo "Version not changed ($(VERSION)"
+	docker build -t olopost/blog:$(VERSION) .
 
 push:
 	docker push olopost/blog:$(VERSION)
