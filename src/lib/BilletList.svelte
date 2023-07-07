@@ -2,6 +2,7 @@
     import {onMount} from 'svelte';
     import {location, push} from 'svelte-spa-router';
     import { currentUser, pb } from './pocketbase';
+
     import Header from "./Header.svelte";
     export let currentPage = 1;
     export let currentTag = null;

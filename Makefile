@@ -15,7 +15,7 @@ build:
 
 
 buildnative:
-	npm version $(VERSION)
+	npm version $(VERSION) || true
 	docker build -t olopost/blog:$(VERSION) .
 
 
