@@ -1,5 +1,5 @@
 import PocketBase from 'pocketbase';
-import conf from './../assets/pb.json'
+import conf from "./../assets/pb.json"
 import { writable } from 'svelte/store';
 import {push} from "svelte-spa-router";
 

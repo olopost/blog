@@ -2,7 +2,7 @@
     import {onMount} from "svelte";
     import {oidcAuth, pb} from "../lib/pocketbase";
     import {push} from "svelte-spa-router";
-    import { jsPDF } from "jspdf";
+    import {doc_jspdf} from "../lib/pdf";
 
     export let params;
     export let content;
@@ -14,11 +14,10 @@
         push("/");
     }
     export function PDF() {
-       const doc = new jsPDF();
         console.log(updated)
         const udt = new Date(updated)
         let source = document.querySelector("#article")
-        doc.html(source, {callback: function(doc) {doc.save(title + "-" + udt.toISOString() + ".pdf")}, x:15, y:15, width: 170, windowWidth: 650});
+        doc_jspdf.html(source, {callback: function(doc) {doc.save(title + "-" + udt.toISOString() + ".pdf")}, x:15, y:15, width: 170, windowWidth: 650});
     }
     onMount(async () => {
         const note = (await pb.collection("kb_note").getOne(params.pageId, {expand: "tag.label"}))
@@ -51,7 +50,7 @@
 
 </span>
 </header>
-    <article class="prose w-a4 h-14">
+    <article id="article" class="prose w-a4 h-14">
         <h1>{title}</h1>
         {#if src}
             <h2>Le diagramme</h2>

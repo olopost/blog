@@ -7,7 +7,23 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
+    "check": "svelte-check --tsconfig tsconfig.json"
+  },
+  "tsconfig": {
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@assets/*": ["assets/*"]
+    },
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "checkJs": true,
+    "isolatedModules": true
+  },
+  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^2.1.0",
@@ -19,7 +35,6 @@
     "autoprefixer": "^10.4.14",
     "chromiumly": "^2.0.8",
     "cors": "^2.8.5",
-    "jspdf": "^2.5.1",
     "pocketbase": "^0.15.0",
     "postcss": "^8.4.25",
     "svelte": "^4.0.4",
@@ -29,6 +44,7 @@
     "tslib": "^2.6.0",
     "typescript": "^5.1.6",
     "vite": "^4.4.0",
-    "winston": "^3.9.0"
+    "winston": "^3.9.0",
+    "jspdf": "^2.5.1"
   }
 }
