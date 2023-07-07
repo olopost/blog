@@ -6,7 +6,10 @@
  import subPage from "./routes/subPage.svelte";
  import addPage from "./routes/addPage.svelte";
   import pdfPage from "./routes/pdfPage.svelte";
+  import searchPage from "./routes/searchPage.svelte";
+
   const routes = {
+      "/search/:search": searchPage,
       "/": HomePage,
       "/login": HomePage,
       "/logout": HomePage,

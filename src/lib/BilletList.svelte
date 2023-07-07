@@ -5,6 +5,8 @@
 
     import Header from "./Header.svelte";
     export let currentPage = 1;
+
+    export let search = null;
     export let currentTag = null;
     export let totalPage = 0;
     export let billets = [];
@@ -29,7 +31,7 @@
      * the function return a promise with the list of billet
      * total page that can be requested
      */
-    async function calculateBillets(pb: any, currentTag: string) {
+    async function calculateBillets(pb: any, currentTag: string, search: string) {
         let req;
         let maxBillet = 4;
         let mybillets;
@@ -39,6 +41,10 @@
         if (pb.authStore.isValid) {
             filter = ""
             console.log("authenticated:" + filter)
+        }
+        if (search) {
+            filter = "note~\'" +  search + "\'";
+            console.log(filter)
         }
         // ---
         if (currentTag == null) {
@@ -63,7 +69,7 @@
      * We calculate billet at page initial loading
      */
     onMount(async () => {
-        let req = (await calculateBillets(pb, currentTag))
+        let req = (await calculateBillets(pb, currentTag, search))
         totalPage = req.totalPage;
         billets = req.billets;
     });
@@ -72,12 +78,13 @@
      * On change, we reload the page and recalculate billet
      */
     $: async() => {
-        let req = (await calculateBillets(pb, currentTag));
+        let req = (await calculateBillets(pb, currentTag, search));
         totalPage = req.totalPage;
         billets = req.billets;
     }
     $: {billets = [...billets]
     totalPage = totalPage;
+        search = search;
     }
 
     /**
@@ -137,6 +144,11 @@
         //});
     }
 </script>
+{#key search}
+{#if search}
+<h1> Terme de la recherche : {search}</h1>
+{/if}
+    {/key}
 {#each billets as billet}
         <article class="{prose(billet)}">
             <div class="flex justify-between">

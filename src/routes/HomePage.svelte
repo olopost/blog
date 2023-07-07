@@ -27,7 +27,7 @@
     <Header/>
     <div class="grid grid-cols-1">
         {#key params}
-            <BilletList bind:currentTag="{params.tag}" bind:currentPage="{params.page}"></BilletList>
+            <BilletList bind:search="{params.search}" bind:currentTag="{params.tag}" bind:currentPage="{params.page}"></BilletList>
         {/key}
     </div>
     {#if pb.authStore.isValid}
